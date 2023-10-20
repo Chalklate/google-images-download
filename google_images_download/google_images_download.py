@@ -218,8 +218,12 @@ class googleimagesdownload:
         version = (3, 0)
         cur_version = sys.version_info
         headers = {}
+        '''
         headers[
             'User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36"
+        '''
+        headers[
+            'User-Agent'] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36"
         if cur_version >= version:  # If the Current Version of Python is 3.0 or above
             try:
                 req = urllib.request.Request(url, headers=headers)
@@ -253,6 +257,7 @@ class googleimagesdownload:
     # Download Page for more than 100 images
     def download_extended_page(self, url, chromedriver, browser):
         from selenium import webdriver
+        from selenium.webdriver.common.by import By
         from selenium.webdriver.common.keys import Keys
         if sys.version_info[0] < 3:
             reload(sys)
@@ -265,7 +270,7 @@ class googleimagesdownload:
             browser = webdriver.Firefox()
         else:
             try:
-                browser = webdriver.Chrome(chromedriver, chrome_options=options)
+                browser = webdriver.Chrome(options=options)
             except Exception as e:
                 print("Looks like we cannot locate the path the 'chromedriver' (use the '--chromedriver' "
                       "argument to specify the path to the executable.) or google chrome browser is not "
@@ -307,21 +312,21 @@ class googleimagesdownload:
 
         # Bypass "Before you continue" if it appears
         try:
-            browser.find_element_by_css_selector("[aria-label='Accept all']").click()
+            browser.find_element(by=By.CSS_SELECTOR, value="[aria-label='Accept all']").click()
             time.sleep(1)
         except selenium.common.exceptions.NoSuchElementException:
             pass
 
         print("Getting you a lot of images. This may take a few moments...")
 
-        element = browser.find_element_by_tag_name("body")
+        element = browser.find_element(by=By.TAG_NAME, value="body")
         # Scroll down
         for i in range(50):
             element.send_keys(Keys.PAGE_DOWN)
             time.sleep(0.3)
 
         try:
-            browser.find_element_by_xpath('//input[@value="Show more results"]').click()
+            browser.find_element(by=By.XPATH, value='//input[@value="Show more results"]').click()
             for i in range(50):
                 element.send_keys(Keys.PAGE_DOWN)
                 time.sleep(0.3)  # bot id protection
@@ -404,7 +409,7 @@ class googleimagesdownload:
         main = data[3]
         info = data[9]
         if info is None:
-            info = data[11]
+            info = data[25]
         formatted_object = {}
         try:
             formatted_object['image_height'] = main[2]
