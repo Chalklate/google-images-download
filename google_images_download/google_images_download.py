@@ -407,39 +407,19 @@ class googleimagesdownload:
     def format_object(self, object):
         data = object[1]
         main = data[3]
-        # Object type test
-        '''
-        print()
-        print(main)
-        print(type(main[0]))
-        print(type(main[1]))
-        print(type(main[2]))
-        print()
-        '''
         info = data[9]
         if info is None:
             info = data[25]
-        #print(data)
-        #print(info)
         formatted_object = {}
-        #print("Enter>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         try:
             formatted_object['image_height'] = main[2]
-            #print("STEP1>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             formatted_object['image_width'] = main[1]
-            #print("STEP2>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             formatted_object['image_link'] = main[0]
-            #print("STEP3>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             formatted_object['image_format'] = main[0][-1 * (len(main[0]) - main[0].rfind(".") - 1):]
-            #print("STEP4>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             formatted_object['image_description'] = info['2003'][3]
-            #print("STEP5>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             formatted_object['image_host'] = info['2003'][17]
-            #print("STEP6>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             formatted_object['image_source'] = info['2003'][2]
-            #print("STEP7>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             formatted_object['image_thumbnail_url'] = data[2][0]
-            #print("Sucess>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         except Exception as e:
             print(e)
             return None
@@ -926,28 +906,6 @@ class googleimagesdownload:
                     if not arguments["silent_mode"]:
                         print("\nImage Metadata: " + str(object))
 
-                # Verify arguments data type
-                '''
-                print("Verify arguments data type>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                print(type(object['image_link']))
-                print(type(object['image_format']))
-                print(type(main_directory))
-                print(type(dir_name))
-                print(type(count))
-                print(type(arguments['print_urls']))
-                print(type(arguments['socket_timeout']))
-                print(type(arguments['prefix']))
-                print(type(arguments['print_size']))
-                print(type(arguments['no_numbering']))
-                print(type(arguments['no_download']))
-                print(type(arguments['save_source']))
-                print(type(object['image_source']))
-                print(type(arguments["silent_mode"]))
-                print(type(arguments["thumbnail_only"]))
-                print(type(arguments['format']))
-                print(type(arguments['ignore_urls']))
-                print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                '''
                 # download the images
                 download_status, download_message, return_image_name, absolute_path = self.download_image(
                     object['image_link'], object['image_format'], main_directory, dir_name, count,
