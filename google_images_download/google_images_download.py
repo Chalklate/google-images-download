@@ -259,6 +259,8 @@ class googleimagesdownload:
         from selenium import webdriver
         from selenium.webdriver.common.by import By
         from selenium.webdriver.common.keys import Keys
+        from selenium.webdriver.chrome.service import Service
+        service = Service(executable_path=chromedriver)
         if sys.version_info[0] < 3:
             reload(sys)
             sys.setdefaultencoding('utf8')
@@ -270,7 +272,7 @@ class googleimagesdownload:
             browser = webdriver.Firefox()
         else:
             try:
-                browser = webdriver.Chrome(options=options)
+                browser = webdriver.Chrome(service=service, options=options)
             except Exception as e:
                 print("Looks like we cannot locate the path the 'chromedriver' (use the '--chromedriver' "
                       "argument to specify the path to the executable.) or google chrome browser is not "
